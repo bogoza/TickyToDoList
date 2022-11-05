@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Ticky To Do</string>
+    <string name="about">I know you’ve got many things to do but I’m here to help you organize</string>
+    <string name="get_started">Get started</string>
+    <string name="hey_i_m_ticky">Hey I\'m Ticky!</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="july_2022">July, 2022</string>
+    <string name="add_some_tasks">Add some tasks,</string>
+    <string name="don_t_make_me_bored">don\'t make me bored</string>
+    <string name="new_task">New task</string>
+</resources>
