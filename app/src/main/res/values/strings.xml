@@ -9,4 +9,8 @@
     <string name="add_some_tasks">Add some tasks,</string>
     <string name="don_t_make_me_bored">don\'t make me bored</string>
     <string name="new_task">New task</string>
+    <string name="back">Back</string>
+    <string name="stuff_to_do">Stuff to do?</string>
+    <string name="type_your_task_here">Type your task here</string>
+    <string name="save">Save</string>
 </resources>

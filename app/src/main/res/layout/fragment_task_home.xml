@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_gray"
-    tools:context=".fragments.NoTaskHomeFragment">
+    tools:context=".fragments.TaskHomeFragment"
+    >
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/view_for_calendar"
@@ -22,12 +24,27 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="48dp"
             android:fontFamily="@font/ubuntu_bold"
-            android:gravity="start"
             android:text="@string/july_2022"
             android:textColor="@color/dark_color"
             android:textSize="26sp"
             app:layout_constraintStart_toStartOf="@+id/no_task_horizontal_linear"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/newTaskButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@id/cyan_rect_linear_lay"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="48dp"
+            android:text="New task"
+            android:fontFamily="@font/ubuntu_regular"
+            android:textSize="14sp"
+            android:textAllCaps="false"
+            android:backgroundTint="@color/dark_color"
+            app:cornerRadius="16dp"
+            />
+
 
         <LinearLayout
             android:id="@+id/no_task_horizontal_linear"
@@ -62,6 +79,7 @@
                     android:textSize="16sp" />
 
                 <TextView
+                    android:id="@+id/number4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -331,56 +349,76 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ImageView
-        android:id="@+id/no_task_cat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
-        android:src="@drawable/home_cat"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/view_for_calendar" />
 
-    <TextView
-        android:id="@+id/no_task_text_view_one"
-        android:layout_width="wrap_content"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:fontFamily="@font/ubuntu_bold"
-        android:gravity="center"
-        android:text="@string/add_some_tasks"
-        android:textColor="@color/dark_color"
-        android:textSize="20sp"
+        android:paddingBottom="230dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/no_task_cat" />
+        app:layout_constraintTop_toBottomOf="@id/view_for_calendar">
 
-    <TextView
-        android:id="@+id/no_task_text_second_one"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:fontFamily="@font/ubuntu_bold"
-        android:gravity="center"
-        android:text="@string/don_t_make_me_bored"
-        android:textColor="@color/dark_color"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/no_task_text_view_one" />
+        <LinearLayout
+            android:id="@+id/sort_linear"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/no_task_button"
-        android:layout_width="146dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="32dp"
-        android:backgroundTint="@color/dark_color"
-        android:fontFamily="@font/ubuntu_regular"
-        android:text="@string/new_task"
-        android:textAllCaps="false"
-        app:cornerRadius="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/no_task_text_second_one" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="0dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginTop="20dp">
+                <ImageView
+                    android:id="@+id/to_to_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="32dp"
+                    android:src="@drawable/to_do_icon"/>
+
+                <TextView
+                    android:id="@+id/to_do_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="To do"
+                    app:layout_constraintStart_toEndOf="@id/to_to_icon"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginStart="12dp"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:textColor="@color/dark_color"/>
+
+                <TextView
+                    android:id="@+id/sort_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginEnd="24dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:text="sort by"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:textColor="@color/gray_text"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="27dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                tools:listitem="@layout/item_task_layout"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

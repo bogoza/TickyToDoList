@@ -10,8 +10,14 @@
 
     <color name="background_gray">#F2F4F5</color>
     <color name="white_full">#FFFFFF</color>
-    <color name="dark_text">#1E212B</color>
+    <color name="dark_color">#1E212B</color>
     <color name="sky_blue">#EBFAFF</color>
     <color name="dark_sky_blue">#32CCFF</color>
+    <color name="gray_text">#B9C8CF</color>
+    <color name="background_white">#F2F2F2</color>
+
+    <color name="added_item">#202431</color>
+    <color name="red">#FF453A</color>
+
 
 </resources>
