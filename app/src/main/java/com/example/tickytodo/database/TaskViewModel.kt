@@ -3,6 +3,7 @@ package com.example.tickytodo.database
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -11,15 +12,29 @@ class TaskViewModel (application: Application):AndroidViewModel(application) {
 
     val readAllData: LiveData<List<Task>>
     private val repository: TaskRepository
+    val isHomeScreenEmpty = MutableLiveData(false)
 
     init {
         val taskDao = TaskDatabase.getDataBase(application).taskDao()
         repository = TaskRepository(taskDao)
         readAllData = repository.readAllData
     }
-    fun addTask(task: Task){
-        viewModelScope.launch (Dispatchers.IO){
+
+    fun addTask(task: Task) {
+        viewModelScope.launch(Dispatchers.IO) {
             repository.addTask(task)
+        }
+    }
+
+    fun update(user: Task) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.update(user)
+        }
+    }
+
+    fun delete(user: Task){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.delete(user)
         }
     }
 }

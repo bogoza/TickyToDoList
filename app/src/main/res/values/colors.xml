@@ -19,5 +19,6 @@
     <color name="added_item">#202431</color>
     <color name="red">#FF453A</color>
 
+    <color name="cancel_button_with_x_on_home_frag">#FEFFFF</color>
 
 </resources>

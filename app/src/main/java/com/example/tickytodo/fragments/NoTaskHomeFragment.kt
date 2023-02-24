@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import com.example.tickytodo.dataClasses.DataModel
 import com.example.tickytodo.R
+import com.example.tickytodo.adapter.MyTaskAdapter
+import com.example.tickytodo.database.Task
 import com.example.tickytodo.databinding.FragmentNoTaskHomeBinding
 
 
@@ -23,7 +25,7 @@ class NoTaskHomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentNoTaskHomeBinding.inflate(inflater)
+        _binding = FragmentNoTaskHomeBinding.inflate(inflater,container,false)
         //code here
 
         return binding.root
@@ -44,5 +46,7 @@ class NoTaskHomeFragment : Fragment() {
     companion object{
         fun newInstance() = NoTaskHomeFragment()
     }
+
+
 
 }

@@ -13,4 +13,22 @@
     <string name="stuff_to_do">Stuff to do?</string>
     <string name="type_your_task_here">Type your task here</string>
     <string name="save">Save</string>
+    <string name="update">Update</string>
+    <string name="m">M</string>
+    <string name="_4">4</string>
+    <string name="t">T</string>
+    <string name="_5">5</string>
+    <string name="w">W</string>
+    <string name="_6">6</string>
+    <string name="_7">7</string>
+    <string name="f">F</string>
+    <string name="_8">8</string>
+    <string name="s">S</string>
+    <string name="_9">9</string>
+    <string name="_10">10</string>
+    <string name="to_do">To do</string>
+    <string name="sort_by">sort by</string>
+    <string name="completed">Completed</string>
+    <string name="done">Done</string>
+    <string name="delete">Delete</string>
 </resources>

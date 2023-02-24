@@ -1,126 +1,103 @@
 package com.example.tickytodo.fragments
 
-import android.app.DatePickerDialog
-import android.app.Dialog
-import android.content.Context
-import android.nfc.Tag
-import android.os.Build
 import android.os.Bundle
-import android.provider.SyncStateContract.Helpers.insert
-import android.provider.SyncStateContract.Helpers.update
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.DatePicker
-import android.widget.Toast
-import androidx.annotation.RequiresApi
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.tickytodo.R
-import com.example.tickytodo.dataClasses.HomeData
 import com.example.tickytodo.database.Task
 import com.example.tickytodo.database.TaskViewModel
-import com.example.tickytodo.databinding.FragmentAddTaskBinding
-import kotlinx.android.synthetic.main.fragment_add_task.*
-import kotlinx.android.synthetic.main.item_task_layout.*
-import java.util.*
+import com.example.tickytodo.databinding.FragmentUpdateTaskBinding
 
+class UpdateTaskFragment(private val currentTask: Task) : Fragment() {
 
-class AddTaskFragment : Fragment() {
-
-    private var _binding: FragmentAddTaskBinding? = null
+    private var _binding: FragmentUpdateTaskBinding? = null
     private val binding get() = _binding!!
-
     private lateinit var mTaskViewModel: TaskViewModel
-
-    private var selectedColorIndex = 5
+    private var selectedColorIndex = 0
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentAddTaskBinding.inflate(inflater,container,false)
-
+        // Inflate the layout for this fragment
+        _binding = FragmentUpdateTaskBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
+    private fun inputCheck(description: String): Boolean {
+        return !(TextUtils.isEmpty(description))
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        mTaskViewModel = ViewModelProvider(this).get(TaskViewModel::class.java)
-
-        goToTaskHomeFragment()
+        mTaskViewModel = ViewModelProvider(this)[TaskViewModel::class.java]
+//        binding.editTextTask.setText(currentData.description)
+        backButtons()
+        showCurrentTask()
         listenerForCircles()
-        clickListener()
-
-
-    }
-
-    //click listeners
-    private fun clickListener() {
-        binding.saveBtn.setOnClickListener {
-            insertDataToDatabase()
+        currentCircleColor()
+        binding.updateBtn.setOnClickListener {
+            updateItem()
         }
-        binding.calendar.setOnClickListener {
-            showDatePicker()
+
+
+    }
+
+    private fun currentCircleColor() {
+        when (selectedColorIndex) {
+            0 -> {binding.redCircleBorder.visibility = View.VISIBLE}
+            1 -> {binding.orangeCircleBorder.visibility = View.VISIBLE}
+            2 -> {binding.yellowCircleBorder.visibility = View.VISIBLE}
+            3 -> {binding.greenCircleBorder.visibility = View.VISIBLE}
+            4 -> {binding.blueCircleBorder.visibility = View.VISIBLE}
+            5 -> {binding.darkBlueCircleBorder.visibility = View.VISIBLE}
+            6 -> {binding.purpleCircleBorder.visibility = View.VISIBLE}
+            7 -> {binding.lightPurpleCircleBorder.visibility = View.VISIBLE}
+            8 -> {binding.pinkCircleBorder.visibility = View.VISIBLE}
         }
     }
 
-    private fun showDatePicker() {
-        val datePickerFragment = DatePickerFragment()
-        datePickerFragment.show(parentFragmentManager, "datePicker")
+    private fun showCurrentTask() {
+        binding.editTextTask.setText(currentTask.description)
+        selectedColorIndex = currentTask.color
+
     }
 
-    private fun insertDataToDatabase() {
-        val description = binding.editTextTask.text.toString()
-
-
-
-        if (inputCheck(description)) {
-            val task = Task(
-                null,
-                description = description,
-                checkbox = false,
+    private fun updateItem() {
+        val desc = binding.editTextTask.text.toString()
+        if (inputCheck(desc)) {
+            val updateUser = Task(
+                id = currentTask.id,
+                description = desc,
+                checkbox = currentTask.checkbox,
                 color = selectedColorIndex,
-                date = "04.02,2023"
+                date = currentTask.date
             )
-            mTaskViewModel.addTask(task)
-            Toast.makeText(requireContext(), "Successfully added!", Toast.LENGTH_LONG).show()
-            parentFragmentManager
-                .beginTransaction()
-                .replace(R.id.fragment_container_view, TaskHomeFragment())
-                .commit()
+            mTaskViewModel.update(updateUser)
+            goHome()
         }
+
     }
 
-    //this function works for every go task Home Fragment button like
-    private fun goToTaskHomeFragment() {
+    private fun backButtons() {
         binding.backArrConstraint.setOnClickListener {
-            parentFragmentManager
-                .beginTransaction()
-                .replace(R.id.fragment_container_view, TaskHomeFragment())
-                .commit()
+            goHome()
         }
         binding.cancelContainer.setOnClickListener {
-            parentFragmentManager
-                .beginTransaction()
-                .replace(R.id.fragment_container_view, TaskHomeFragment())
-                .commit()
+            goHome()
         }
-        binding.xAsCancel.setOnClickListener {
-            parentFragmentManager
-                .beginTransaction()
-                .replace(R.id.fragment_container_view, TaskHomeFragment())
-                .commit()
-        }
+    }
 
-
+    private fun goHome() {
+        parentFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragment_container_view, TaskHomeFragment())
+            .commit()
     }
 
     private fun listenerForCircles() {
@@ -234,57 +211,5 @@ class AddTaskFragment : Fragment() {
             binding.pinkCircleBorder.visibility = View.VISIBLE
         }
     }
-
-    private var listener: TaskHomeFragment.TaskAddedListener? = null
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is TaskHomeFragment.TaskAddedListener) {
-            listener = context
-        }
-    }
-
-    private fun inputCheck(description: String): Boolean {
-        return !(TextUtils.isEmpty(description))
-    }
-
-    class DatePickerFragment : DialogFragment(), DatePickerDialog.OnDateSetListener {
-        override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-            val calendar: Calendar = Calendar.getInstance()
-            val year: Int = calendar.get(Calendar.YEAR)
-            val month: Int = calendar.get(Calendar.MONTH)
-            val dayOfMonth: Int = calendar.get(Calendar.DAY_OF_MONTH)
-
-            return DatePickerDialog(requireContext(), this, year, month, dayOfMonth)
-        }
-
-        override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-
-            Log.d("TAG", "Got the date")
-        }
-    }
-
-
-    override fun onDetach() {
-        super.onDetach()
-        listener = null
-    }
-
-//    private fun updateItem() {
-//        val desc = binding.editTextTask.text.toString()
-//        if (inputCheck(desc)) {
-//            val updateUser = Task(
-//                id = currentData.id,
-//                description = currentData.description,
-//                checkbox = currentData.checkbox,
-//                color = currentData.color,
-//                date = currentData.date
-//            )
-//            mTaskViewModel.update(updateUser)
-//
-//        }
-//
-//
-//    }
 
 }

@@ -1,45 +1,43 @@
 package com.example.tickytodo.adapter
 
-
-import android.content.ClipData
-import android.content.Context
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tickytodo.R
-import com.example.tickytodo.dataClasses.HomeData
 import com.example.tickytodo.database.Task
 import com.example.tickytodo.databinding.ItemTaskLayoutBinding
+import kotlinx.android.synthetic.main.item_task_layout.view.*
 
-class MyTaskAdapter() :
+class MyTaskAdapter :
     RecyclerView.Adapter<MyTaskAdapter.ViewHolder>() {
 
-    private var toDoList = ArrayList<HomeData>()
-
+    private var toDoList = ArrayList<Task>()
+    private var isRecyclerEmpty = false
     private val images = arrayOf(
         R.drawable.ic_red_oval,
+        R.drawable.ic_orange_oval,
+        R.drawable.ic_yellow_oval,
         R.drawable.ic_green_oval,
         R.drawable.ic_blue_oval,
-        R.drawable.ic_light_purple_oval,
-        R.drawable.ic_orange_oval,
-        R.drawable.ic_pink_oval,
+        R.drawable.ic_dark_blue_oval,
         R.drawable.ic_purple_oval,
-        R.drawable.ic_yellow_oval,
-        R.drawable.ic_dark_blue_oval
+        R.drawable.ic_light_purple_oval,
+        R.drawable.ic_pink_oval
     )
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class ViewHolder(
+        view: View,
+
+        ) : RecyclerView.ViewHolder(view) {
         private val binding = ItemTaskLayoutBinding.bind(view)
 
-        val descriptionSample = itemView.findViewById<TextView>(R.id.descriptionSample)
-        val checkboxSample = itemView.findViewById<CheckBox>(R.id.checkboxSample)
-        val dateSample = itemView.findViewById<TextView>(R.id.dateSample)
-        val colorImageView = itemView.findViewById<ImageView>(R.id.small_red_circle)
-
+        val descriptionSample = binding.descriptionSample
+        val checkboxSample = binding.checkboxSample
+        val dateSample = binding.dateSample
+        val colorImageView = binding.smallRedCircle
 
     }
 
@@ -53,20 +51,49 @@ class MyTaskAdapter() :
         val todo = toDoList[position]
         holder.descriptionSample.text = todo.description
         holder.dateSample.text = todo.date
-        holder.checkboxSample.isChecked = todo.checkBox
+        holder.checkboxSample.isChecked = todo.checkbox
 
         holder.colorImageView.setImageResource(images[todo.color])
+
+        holder.itemView.itemLayout.setOnClickListener {
+            listener?.setDataToUpdateFragment(todo)
+        }
+        holder.itemView.itemLayout.setOnLongClickListener {
+            listener?.longClick(todo)
+            true
+        }
     }
 
     override fun getItemCount(): Int {
-        return toDoList.size
+        val size = toDoList.size
+        if (size == 0) {
+            isRecyclerEmpty = true
+        } else {
+            isRecyclerEmpty = false
+        }
+        listener?.isRecyclerEmpty(isRecyclerEmpty)
+        return size
     }
 
-    fun showInfo(taskList:List<HomeData>){
+    @SuppressLint("NotifyDataSetChanged")
+    fun showInfo(taskList: List<Task>) {
         this.toDoList.clear()
         this.toDoList.addAll(taskList)
         notifyDataSetChanged()
     }
+
+    private var listener: ISetDataToUpdateFragment? = null
+
+    interface ISetDataToUpdateFragment {
+        fun setDataToUpdateFragment(user: Task)
+        fun longClick(user: Task)
+        fun isRecyclerEmpty(isEmpty: Boolean)
+    }
+
+    fun impInterface(myListener: ISetDataToUpdateFragment) {
+        this.listener = myListener
+    }
+
 }
 
 

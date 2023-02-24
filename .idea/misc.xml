@@ -13,7 +13,10 @@
         <entry key="..\:/TickyToDo/app/src/main/res/drawable/ic_bitmap_svg.xml" value="0.1755" />
         <entry key="..\:/TickyToDo/app/src/main/res/drawable/ic_blue_oval.xml" value="0.129" />
         <entry key="..\:/TickyToDo/app/src/main/res/drawable/ic_calendar.xml" value="0.129" />
+        <entry key="..\:/TickyToDo/app/src/main/res/drawable/ic_completed.xml" value="0.1295" />
         <entry key="..\:/TickyToDo/app/src/main/res/drawable/ic_dark_blue_oval.xml" value="0.1" />
+        <entry key="..\:/TickyToDo/app/src/main/res/drawable/ic_delete__2_.xml" value="0.1295" />
+        <entry key="..\:/TickyToDo/app/src/main/res/drawable/ic_done_btn.xml" value="0.1295" />
         <entry key="..\:/TickyToDo/app/src/main/res/drawable/ic_green_oval.xml" value="0.129" />
         <entry key="..\:/TickyToDo/app/src/main/res/drawable/ic_indicator_rect.xml" value="0.1615" />
         <entry key="..\:/TickyToDo/app/src/main/res/drawable/ic_launcher_background.xml" value="0.134" />
@@ -21,6 +24,7 @@
         <entry key="..\:/TickyToDo/app/src/main/res/drawable/ic_orange_oval.xml" value="0.1635" />
         <entry key="..\:/TickyToDo/app/src/main/res/drawable/ic_oval.xml" value="0.1635" />
         <entry key="..\:/TickyToDo/app/src/main/res/drawable/ic_oval_for_blue.xml" value="0.1635" />
+        <entry key="..\:/TickyToDo/app/src/main/res/drawable/ic_oval_for_cancel.xml" value="0.1295" />
         <entry key="..\:/TickyToDo/app/src/main/res/drawable/ic_oval_for_green.xml" value="0.1635" />
         <entry key="..\:/TickyToDo/app/src/main/res/drawable/ic_oval_for_light_purple.xml" value="0.1635" />
         <entry key="..\:/TickyToDo/app/src/main/res/drawable/ic_oval_for_orange.xml" value="0.1635" />
@@ -29,18 +33,23 @@
         <entry key="..\:/TickyToDo/app/src/main/res/drawable/ic_oval_for_yellow.xml" value="0.1635" />
         <entry key="..\:/TickyToDo/app/src/main/res/drawable/ic_pink_oval.xml" value="0.1635" />
         <entry key="..\:/TickyToDo/app/src/main/res/drawable/ic_purple_oval.xml" value="0.1635" />
+        <entry key="..\:/TickyToDo/app/src/main/res/drawable/ic_rectangle__1_.xml" value="0.1295" />
+        <entry key="..\:/TickyToDo/app/src/main/res/drawable/ic_rectangle_delete_copy.xml" value="0.1295" />
         <entry key="..\:/TickyToDo/app/src/main/res/drawable/ic_red_oval.xml" value="0.129" />
         <entry key="..\:/TickyToDo/app/src/main/res/drawable/ic_top_background_white_rect.xml" value="0.1615" />
+        <entry key="..\:/TickyToDo/app/src/main/res/drawable/ic_x.xml" value="0.1295" />
         <entry key="..\:/TickyToDo/app/src/main/res/drawable/ic_yellow_oval.xml" value="0.129" />
         <entry key="..\:/TickyToDo/app/src/main/res/layout/activity_main.xml" value="0.2" />
         <entry key="..\:/TickyToDo/app/src/main/res/layout/activity_onboarding.xml" value="0.22" />
         <entry key="..\:/TickyToDo/app/src/main/res/layout/asd.xml" value="0.25" />
-        <entry key="..\:/TickyToDo/app/src/main/res/layout/fragment_add_task.xml" value="0.33" />
-        <entry key="..\:/TickyToDo/app/src/main/res/layout/fragment_no_task_home.xml" value="0.25" />
+        <entry key="..\:/TickyToDo/app/src/main/res/layout/fragment_add_task.xml" value="0.25" />
+        <entry key="..\:/TickyToDo/app/src/main/res/layout/fragment_blank.xml" value="0.2" />
+        <entry key="..\:/TickyToDo/app/src/main/res/layout/fragment_no_task_home.xml" value="0.22" />
         <entry key="..\:/TickyToDo/app/src/main/res/layout/fragment_onboard.xml" value="0.22" />
         <entry key="..\:/TickyToDo/app/src/main/res/layout/fragment_onboarding.xml" value="0.16304347826086957" />
-        <entry key="..\:/TickyToDo/app/src/main/res/layout/fragment_task_home.xml" value="0.22" />
-        <entry key="..\:/TickyToDo/app/src/main/res/layout/item_task_layout.xml" value="0.25880551301684535" />
+        <entry key="..\:/TickyToDo/app/src/main/res/layout/fragment_task_home.xml" value="0.2" />
+        <entry key="..\:/TickyToDo/app/src/main/res/layout/fragment_update_task.xml" value="0.17552083333333332" />
+        <entry key="..\:/TickyToDo/app/src/main/res/layout/item_task_layout.xml" value="0.25" />
       </map>
     </option>
   </component>
