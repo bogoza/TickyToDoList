@@ -11,6 +11,13 @@ interface TaskDao {
     @Query("SELECT * FROM task_table")
     fun readAllData(): LiveData<List<Task>>
 
+    @Query("SELECT * FROM task_table WHERE checkbox is 0")
+    fun readFalseData() : LiveData<List<Task>>
+
+    @Query("SELECT * FROM task_table WHERE checkbox is 1")
+    fun readTrueData() : LiveData<List<Task>>
+
+
     @Update(entity = Task::class)
     fun update(task: Task)
 

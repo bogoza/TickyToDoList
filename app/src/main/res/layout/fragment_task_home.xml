@@ -444,7 +444,15 @@
                     android:textSize="18sp"
                     app:layout_constraintStart_toEndOf="@id/completed_icon"
                     app:layout_constraintTop_toTopOf="parent" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/completedRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="27dp"/>
         </LinearLayout>
 
 

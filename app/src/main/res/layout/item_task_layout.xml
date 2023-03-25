@@ -30,8 +30,8 @@
 
             <CheckBox
                 android:id="@+id/checkboxSample"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_marginStart="20dp"
                 android:checked="false"
                 app:layout_constraintStart_toStartOf="parent"

@@ -1,6 +1,7 @@
 package com.example.tickytodo
 import android.os.Bundle
 import android.util.Log
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -13,6 +14,7 @@ import com.example.tickytodo.databinding.ActivityMainBinding
 import com.example.tickytodo.fragments.NoTaskHomeFragment
 import com.example.tickytodo.fragments.OnboardFragment
 import com.example.tickytodo.fragments.TaskHomeFragment
+import org.w3c.dom.Text
 
 
 class MainActivity : AppCompatActivity() {
@@ -29,7 +31,6 @@ class MainActivity : AppCompatActivity() {
 
         mTaskViewModel = TaskViewModel(application)
         mTaskViewModel.isHomeScreenEmpty.observe(this, Observer {
-            Log.d("AAA", "onCreate:$it")
             if (it){
                 openFragment(NoTaskHomeFragment.newInstance(), R.id.fragment_container_view)
             }else {
@@ -50,8 +51,12 @@ class MainActivity : AppCompatActivity() {
             openFragment(NoTaskHomeFragment.newInstance(), R.id.fragment_container_view)
         }
 
+       val find = findViewById<TextView>(R.id.textViewForCompleted)
+
+
 
     }
+
 
     private fun openFragment(f: Fragment, idHolder: Int) {
         supportFragmentManager

@@ -1,16 +1,23 @@
 package com.example.tickytodo.fragments
 
+import android.app.DatePickerDialog
+import android.app.Dialog
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.DatePicker
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.tickytodo.R
 import com.example.tickytodo.database.Task
 import com.example.tickytodo.database.TaskViewModel
 import com.example.tickytodo.databinding.FragmentUpdateTaskBinding
+import java.text.SimpleDateFormat
+import java.util.*
 
 class UpdateTaskFragment(private val currentTask: Task) : Fragment() {
 
@@ -37,28 +44,59 @@ class UpdateTaskFragment(private val currentTask: Task) : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         mTaskViewModel = ViewModelProvider(this)[TaskViewModel::class.java]
 //        binding.editTextTask.setText(currentData.description)
-        backButtons()
         showCurrentTask()
         listenerForCircles()
         currentCircleColor()
+        clickListener()
+
+
+
+    }
+    private fun clickListener() {
         binding.updateBtn.setOnClickListener {
             updateItem()
+        }
+        binding.backArrConstraint.setOnClickListener {
+            goHome()
+        }
+        binding.cancelContainer.setOnClickListener {
+            goHome()
+        }
+        binding.calendar.setOnClickListener {
+//            showDatePicker()
         }
 
 
     }
-
     private fun currentCircleColor() {
         when (selectedColorIndex) {
-            0 -> {binding.redCircleBorder.visibility = View.VISIBLE}
-            1 -> {binding.orangeCircleBorder.visibility = View.VISIBLE}
-            2 -> {binding.yellowCircleBorder.visibility = View.VISIBLE}
-            3 -> {binding.greenCircleBorder.visibility = View.VISIBLE}
-            4 -> {binding.blueCircleBorder.visibility = View.VISIBLE}
-            5 -> {binding.darkBlueCircleBorder.visibility = View.VISIBLE}
-            6 -> {binding.purpleCircleBorder.visibility = View.VISIBLE}
-            7 -> {binding.lightPurpleCircleBorder.visibility = View.VISIBLE}
-            8 -> {binding.pinkCircleBorder.visibility = View.VISIBLE}
+            0 -> {
+                binding.redCircleBorder.visibility = View.VISIBLE
+            }
+            1 -> {
+                binding.orangeCircleBorder.visibility = View.VISIBLE
+            }
+            2 -> {
+                binding.yellowCircleBorder.visibility = View.VISIBLE
+            }
+            3 -> {
+                binding.greenCircleBorder.visibility = View.VISIBLE
+            }
+            4 -> {
+                binding.blueCircleBorder.visibility = View.VISIBLE
+            }
+            5 -> {
+                binding.darkBlueCircleBorder.visibility = View.VISIBLE
+            }
+            6 -> {
+                binding.purpleCircleBorder.visibility = View.VISIBLE
+            }
+            7 -> {
+                binding.lightPurpleCircleBorder.visibility = View.VISIBLE
+            }
+            8 -> {
+                binding.pinkCircleBorder.visibility = View.VISIBLE
+            }
         }
     }
 
@@ -84,14 +122,7 @@ class UpdateTaskFragment(private val currentTask: Task) : Fragment() {
 
     }
 
-    private fun backButtons() {
-        binding.backArrConstraint.setOnClickListener {
-            goHome()
-        }
-        binding.cancelContainer.setOnClickListener {
-            goHome()
-        }
-    }
+
 
     private fun goHome() {
         parentFragmentManager
@@ -211,5 +242,26 @@ class UpdateTaskFragment(private val currentTask: Task) : Fragment() {
             binding.pinkCircleBorder.visibility = View.VISIBLE
         }
     }
+
+//    private fun showDatePicker() {
+//        val datePickerFragment = AddTaskFragment.DatePickerFragment()
+//        datePickerFragment.show(parentFragmentManager, "datePicker")
+//    }
+//    class DatePickerFragment : DialogFragment(), DatePickerDialog.OnDateSetListener {
+//        override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+//            val calendar: Calendar = Calendar.getInstance()
+//            val year: Int = calendar.get(Calendar.YEAR)
+//            val month: Int = calendar.get(Calendar.MONTH)
+//            val dayOfMonth: Int = calendar.get(Calendar.DAY_OF_MONTH)
+//
+//            return DatePickerDialog(requireContext(), this, year, month, dayOfMonth)
+//        }
+//
+//        override fun onDateSet(p0: DatePicker?, p1: Int, p2: Int, p3: Int) {
+//            Log.d("TAG", "Got the date")
+//        }
+//
+//    }
+
 
 }

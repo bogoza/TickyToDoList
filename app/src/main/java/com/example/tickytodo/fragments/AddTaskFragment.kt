@@ -3,11 +3,8 @@ package com.example.tickytodo.fragments
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.Context
-import android.nfc.Tag
 import android.os.Build
 import android.os.Bundle
-import android.provider.SyncStateContract.Helpers.insert
-import android.provider.SyncStateContract.Helpers.update
 import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
@@ -20,19 +17,25 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.tickytodo.R
-import com.example.tickytodo.dataClasses.HomeData
 import com.example.tickytodo.database.Task
 import com.example.tickytodo.database.TaskViewModel
 import com.example.tickytodo.databinding.FragmentAddTaskBinding
 import kotlinx.android.synthetic.main.fragment_add_task.*
-import kotlinx.android.synthetic.main.item_task_layout.*
 import java.util.*
 
 
-class AddTaskFragment : Fragment() {
+class AddTaskFragment : Fragment(),DatePickerDialog.OnDateSetListener {
 
     private var _binding: FragmentAddTaskBinding? = null
     private val binding get() = _binding!!
+
+    var day = 0
+    var month = 0
+    var year = 0
+
+    var savedDay = 0
+    var savedMonth = 0
+    var savedYear = 0
 
     private lateinit var mTaskViewModel: TaskViewModel
 
@@ -73,8 +76,8 @@ class AddTaskFragment : Fragment() {
     }
 
     private fun showDatePicker() {
-        val datePickerFragment = DatePickerFragment()
-        datePickerFragment.show(parentFragmentManager, "datePicker")
+//        val datePickerFragment = DatePickerFragment()
+//        datePickerFragment.show(parentFragmentManager, "datePicker")
     }
 
     private fun insertDataToDatabase() {
@@ -83,11 +86,11 @@ class AddTaskFragment : Fragment() {
 
 
         if (inputCheck(description)) {
-            val task = Task(
+            var task = Task(
                 null,
                 description = description,
                 checkbox = false,
-                color = selectedColorIndex,
+                color = 5,
                 date = "04.02,2023"
             )
             mTaskViewModel.addTask(task)
@@ -248,21 +251,22 @@ class AddTaskFragment : Fragment() {
         return !(TextUtils.isEmpty(description))
     }
 
-    class DatePickerFragment : DialogFragment(), DatePickerDialog.OnDateSetListener {
-        override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-            val calendar: Calendar = Calendar.getInstance()
-            val year: Int = calendar.get(Calendar.YEAR)
-            val month: Int = calendar.get(Calendar.MONTH)
-            val dayOfMonth: Int = calendar.get(Calendar.DAY_OF_MONTH)
-
-            return DatePickerDialog(requireContext(), this, year, month, dayOfMonth)
-        }
-
-        override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-
-            Log.d("TAG", "Got the date")
-        }
-    }
+//    class DatePickerFragment : DialogFragment(), DatePickerDialog.OnDateSetListener {
+//        override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+//            val calendar: Calendar = Calendar.getInstance()
+//            val year: Int = calendar.get(Calendar.YEAR)
+//            val month: Int = calendar.get(Calendar.MONTH)
+//            val dayOfMonth: Int = calendar.get(Calendar.DAY_OF_MONTH)
+//
+//            return DatePickerDialog(requireContext(), this, year, month, dayOfMonth)
+//        }
+//
+//        override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
+//
+//            Log.d("TAG", "Got the date")
+//
+//        }
+//    }
 
 
     override fun onDetach() {
@@ -270,21 +274,27 @@ class AddTaskFragment : Fragment() {
         listener = null
     }
 
-//    private fun updateItem() {
-//        val desc = binding.editTextTask.text.toString()
-//        if (inputCheck(desc)) {
-//            val updateUser = Task(
-//                id = currentData.id,
-//                description = currentData.description,
-//                checkbox = currentData.checkbox,
-//                color = currentData.color,
-//                date = currentData.date
-//            )
-//            mTaskViewModel.update(updateUser)
-//
-//        }
-//
-//
-//    }
+    private fun getDateCalendar(){
+        val cal = Calendar.getInstance()
+        day = cal.get(Calendar.DAY_OF_MONTH)
+        month = cal.get(Calendar.MONTH)
+    }
+    private fun pickDate() {
+        calendar.setOnClickListener {
+            getDateCalendar()
+            DatePickerDialog(requireContext(),this,month,year,day).show()
+        }
+    }
+
+    override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
+        savedDay = dayOfMonth
+        savedMonth = month
+
+        getDateCalendar()
+        choseDate.text = "Due $savedDay $savedMonth"
+
+    }
+
 
 }
+

@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tickytodo.R
+import com.example.tickytodo.adapter.CompletedTaskAdapter
 import com.example.tickytodo.adapter.MyTaskAdapter
 import com.example.tickytodo.dataClasses.HomeData
 import com.example.tickytodo.database.Task
@@ -28,8 +29,11 @@ class TaskHomeFragment : Fragment(), MyTaskAdapter.ISetDataToUpdateFragment {
     private val binding get() = _binding!!
 
     private lateinit var taskAdapter: MyTaskAdapter
+    private lateinit var completedTaskAdapter: CompletedTaskAdapter
     private lateinit var taskRecycler: RecyclerView
+    private lateinit var completedRecycler : RecyclerView
     private lateinit var mTaskViewModel: TaskViewModel
+
 
 
 
@@ -56,7 +60,6 @@ class TaskHomeFragment : Fragment(), MyTaskAdapter.ISetDataToUpdateFragment {
     }
 
     override fun isRecyclerEmpty(isEmpty: Boolean) {
-        Log.d("AAA", "Task: ${isEmpty}")
         mTaskViewModel.isHomeScreenEmpty.postValue(isEmpty)
     }
 
@@ -67,11 +70,28 @@ class TaskHomeFragment : Fragment(), MyTaskAdapter.ISetDataToUpdateFragment {
         taskRecycler.adapter = taskAdapter
         taskAdapter.impInterface(this)
 
+        completedTaskAdapter = CompletedTaskAdapter()
+        completedRecycler = binding.completedRecycler
+        completedRecycler.layoutManager = LinearLayoutManager(requireContext())
+        completedRecycler.adapter = completedTaskAdapter
 
-        mTaskViewModel.readAllData.observe(viewLifecycleOwner, Observer { Task ->
+
+
+//        mTaskViewModel.readAllData.observe(viewLifecycleOwner, Observer { Task ->
+//            taskAdapter.showInfo(Task)
+//            taskAdapter.notifyDataSetChanged()
+//        })
+        mTaskViewModel.readFalseData.observe(viewLifecycleOwner, Observer { Task ->
             taskAdapter.showInfo(Task)
-            taskAdapter.notifyDataSetChanged()
+
+        } )
+
+        mTaskViewModel.readTrueData.observe(viewLifecycleOwner, Observer { Task ->
+            completedTaskAdapter.showInfo(Task)
         })
+
+
+
 
     }
 
