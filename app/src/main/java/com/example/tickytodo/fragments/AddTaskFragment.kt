@@ -1,5 +1,6 @@
 package com.example.tickytodo.fragments
 
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.Context
@@ -13,6 +14,7 @@ import android.view.ViewGroup
 import android.widget.DatePicker
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -29,13 +31,15 @@ class AddTaskFragment : Fragment(),DatePickerDialog.OnDateSetListener {
     private var _binding: FragmentAddTaskBinding? = null
     private val binding get() = _binding!!
 
-    var day = 0
-    var month = 0
-    var year = 0
+    private var day = 0
+    private var month = 0
+    private var year = 0
 
-    var savedDay = 0
-    var savedMonth = 0
-    var savedYear = 0
+    private var savedDay = 0
+    private var savedMonth = 0
+    private var savedYear = 0
+
+    var dateForDb = ""
 
     private lateinit var mTaskViewModel: TaskViewModel
 
@@ -61,7 +65,7 @@ class AddTaskFragment : Fragment(),DatePickerDialog.OnDateSetListener {
         goToTaskHomeFragment()
         listenerForCircles()
         clickListener()
-
+        pickDate()
 
     }
 
@@ -70,15 +74,9 @@ class AddTaskFragment : Fragment(),DatePickerDialog.OnDateSetListener {
         binding.saveBtn.setOnClickListener {
             insertDataToDatabase()
         }
-        binding.calendar.setOnClickListener {
-            showDatePicker()
-        }
     }
 
-    private fun showDatePicker() {
-//        val datePickerFragment = DatePickerFragment()
-//        datePickerFragment.show(parentFragmentManager, "datePicker")
-    }
+
 
     private fun insertDataToDatabase() {
         val description = binding.editTextTask.text.toString()
@@ -91,7 +89,7 @@ class AddTaskFragment : Fragment(),DatePickerDialog.OnDateSetListener {
                 description = description,
                 checkbox = false,
                 color = 5,
-                date = "04.02,2023"
+                date = dateForDb
             )
             mTaskViewModel.addTask(task)
             Toast.makeText(requireContext(), "Successfully added!", Toast.LENGTH_LONG).show()
@@ -251,24 +249,6 @@ class AddTaskFragment : Fragment(),DatePickerDialog.OnDateSetListener {
         return !(TextUtils.isEmpty(description))
     }
 
-//    class DatePickerFragment : DialogFragment(), DatePickerDialog.OnDateSetListener {
-//        override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-//            val calendar: Calendar = Calendar.getInstance()
-//            val year: Int = calendar.get(Calendar.YEAR)
-//            val month: Int = calendar.get(Calendar.MONTH)
-//            val dayOfMonth: Int = calendar.get(Calendar.DAY_OF_MONTH)
-//
-//            return DatePickerDialog(requireContext(), this, year, month, dayOfMonth)
-//        }
-//
-//        override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-//
-//            Log.d("TAG", "Got the date")
-//
-//        }
-//    }
-
-
     override fun onDetach() {
         super.onDetach()
         listener = null
@@ -278,21 +258,47 @@ class AddTaskFragment : Fragment(),DatePickerDialog.OnDateSetListener {
         val cal = Calendar.getInstance()
         day = cal.get(Calendar.DAY_OF_MONTH)
         month = cal.get(Calendar.MONTH)
+        year = cal.get(Calendar.YEAR)
     }
     private fun pickDate() {
         calendar.setOnClickListener {
             getDateCalendar()
-            DatePickerDialog(requireContext(),this,month,year,day).show()
+            DatePickerDialog(requireContext(),this,year,month,day).show()
+        }
+        binding.dateOn.setOnClickListener {
+            getDateCalendar()
+            DatePickerDialog(requireContext(),this,year,month,day).show()
         }
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
         savedDay = dayOfMonth
         savedMonth = month
+        savedYear = year
+
+        var yearInString = ""
+
+        when(savedMonth){
+            0 -> yearInString = "Jan"
+            1 -> yearInString = "Feb"
+            2 -> yearInString = "Mar"
+            3 -> yearInString = "Apr"
+            4 -> yearInString = "May"
+            5 -> yearInString = "Jun"
+            6 -> yearInString = "Jul"
+            7 -> yearInString = "Aug"
+            8 -> yearInString = "Sep"
+            9 -> yearInString = "Oct"
+            10 -> yearInString = "Nov"
+            11 -> yearInString = "Dec"
+        }
 
         getDateCalendar()
-        choseDate.text = "Due $savedDay $savedMonth"
-
+        choseDate.text = "Due $savedDay $yearInString."
+        dateForDb = "$savedDay.$savedMonth.$savedYear"
+        binding.calendar.isVisible = false
+        binding.dateOn.isVisible = true
     }
 
 

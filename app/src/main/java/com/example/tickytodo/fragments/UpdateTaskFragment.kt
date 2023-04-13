@@ -243,25 +243,7 @@ class UpdateTaskFragment(private val currentTask: Task) : Fragment() {
         }
     }
 
-//    private fun showDatePicker() {
-//        val datePickerFragment = AddTaskFragment.DatePickerFragment()
-//        datePickerFragment.show(parentFragmentManager, "datePicker")
-//    }
-//    class DatePickerFragment : DialogFragment(), DatePickerDialog.OnDateSetListener {
-//        override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-//            val calendar: Calendar = Calendar.getInstance()
-//            val year: Int = calendar.get(Calendar.YEAR)
-//            val month: Int = calendar.get(Calendar.MONTH)
-//            val dayOfMonth: Int = calendar.get(Calendar.DAY_OF_MONTH)
-//
-//            return DatePickerDialog(requireContext(), this, year, month, dayOfMonth)
-//        }
-//
-//        override fun onDateSet(p0: DatePicker?, p1: Int, p2: Int, p3: Int) {
-//            Log.d("TAG", "Got the date")
-//        }
-//
-//    }
+
 
 
 }
