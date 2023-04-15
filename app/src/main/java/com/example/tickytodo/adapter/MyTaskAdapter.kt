@@ -62,6 +62,8 @@ class MyTaskAdapter :
             listener?.longClick(todo)
             true
         }
+        holder.checkboxSample.setOnCheckedChangeListener { _, b ->  }
+
     }
 
     override fun getItemCount(): Int {

@@ -76,11 +76,6 @@ class TaskHomeFragment : Fragment(), MyTaskAdapter.ISetDataToUpdateFragment {
         completedRecycler.adapter = completedTaskAdapter
 
 
-
-//        mTaskViewModel.readAllData.observe(viewLifecycleOwner, Observer { Task ->
-//            taskAdapter.showInfo(Task)
-//            taskAdapter.notifyDataSetChanged()
-//        })
         mTaskViewModel.readFalseData.observe(viewLifecycleOwner, Observer { Task ->
             taskAdapter.showInfo(Task)
 
@@ -132,9 +127,6 @@ class TaskHomeFragment : Fragment(), MyTaskAdapter.ISetDataToUpdateFragment {
     }
 
 
-    fun deleteUser(){
-
-    }
     override fun longClick(user: Task) {
         binding.deleteTask.isVisible = true
 

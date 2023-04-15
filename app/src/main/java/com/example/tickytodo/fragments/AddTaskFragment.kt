@@ -87,7 +87,7 @@ class AddTaskFragment : Fragment(), DatePickerDialog.OnDateSetListener {
                 null,
                 description = description,
                 checkbox = false,
-                color = 5,
+                color = selectedColorIndex,
                 date = dateForDb
             )
             mTaskViewModel.addTask(task)
@@ -122,6 +122,7 @@ class AddTaskFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
 
     }
+
 
     private fun listenerForCircles() {
         binding.redCircleBtn.setOnClickListener {
@@ -259,6 +260,7 @@ class AddTaskFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         month = cal.get(Calendar.MONTH)
         year = cal.get(Calendar.YEAR)
     }
+
 
     private fun pickDate() {
         calendar.setOnClickListener {
