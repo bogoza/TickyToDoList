@@ -2,20 +2,15 @@ package com.example.tickytodo.fragments
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
-import android.app.Dialog
 import android.content.Context
-import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.DatePicker
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.tickytodo.R
@@ -26,7 +21,7 @@ import kotlinx.android.synthetic.main.fragment_add_task.*
 import java.util.*
 
 
-class AddTaskFragment : Fragment(),DatePickerDialog.OnDateSetListener {
+class AddTaskFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
     private var _binding: FragmentAddTaskBinding? = null
     private val binding get() = _binding!!
@@ -39,7 +34,7 @@ class AddTaskFragment : Fragment(),DatePickerDialog.OnDateSetListener {
     private var savedMonth = 0
     private var savedYear = 0
 
-    var dateForDb = ""
+    private var dateForDb = ""
 
     private lateinit var mTaskViewModel: TaskViewModel
 
@@ -50,7 +45,7 @@ class AddTaskFragment : Fragment(),DatePickerDialog.OnDateSetListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentAddTaskBinding.inflate(inflater,container,false)
+        _binding = FragmentAddTaskBinding.inflate(inflater, container, false)
 
         return binding.root
 
@@ -74,8 +69,12 @@ class AddTaskFragment : Fragment(),DatePickerDialog.OnDateSetListener {
         binding.saveBtn.setOnClickListener {
             insertDataToDatabase()
         }
+        binding.xOnDate.setOnClickListener {
+            dateForDb = ""
+            binding.calendar.isVisible = true
+            binding.dateOn.isVisible = false
+        }
     }
-
 
 
     private fun insertDataToDatabase() {
@@ -84,7 +83,7 @@ class AddTaskFragment : Fragment(),DatePickerDialog.OnDateSetListener {
 
 
         if (inputCheck(description)) {
-            var task = Task(
+            val task = Task(
                 null,
                 description = description,
                 checkbox = false,
@@ -254,20 +253,21 @@ class AddTaskFragment : Fragment(),DatePickerDialog.OnDateSetListener {
         listener = null
     }
 
-    private fun getDateCalendar(){
+    private fun getDateCalendar() {
         val cal = Calendar.getInstance()
         day = cal.get(Calendar.DAY_OF_MONTH)
         month = cal.get(Calendar.MONTH)
         year = cal.get(Calendar.YEAR)
     }
+
     private fun pickDate() {
         calendar.setOnClickListener {
             getDateCalendar()
-            DatePickerDialog(requireContext(),this,year,month,day).show()
+            DatePickerDialog(requireContext(), this, year, month, day).show()
         }
         binding.dateOn.setOnClickListener {
             getDateCalendar()
-            DatePickerDialog(requireContext(),this,year,month,day).show()
+            DatePickerDialog(requireContext(), this, year, month, day).show()
         }
     }
 
@@ -279,7 +279,7 @@ class AddTaskFragment : Fragment(),DatePickerDialog.OnDateSetListener {
 
         var yearInString = ""
 
-        when(savedMonth){
+        when (savedMonth) {
             0 -> yearInString = "Jan"
             1 -> yearInString = "Feb"
             2 -> yearInString = "Mar"
@@ -296,7 +296,7 @@ class AddTaskFragment : Fragment(),DatePickerDialog.OnDateSetListener {
 
         getDateCalendar()
         choseDate.text = "Due $savedDay $yearInString."
-        dateForDb = "$savedDay.$savedMonth.$savedYear"
+        dateForDb = "Due $savedDay $yearInString."
         binding.calendar.isVisible = false
         binding.dateOn.isVisible = true
     }

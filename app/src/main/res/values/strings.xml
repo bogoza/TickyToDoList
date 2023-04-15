@@ -33,4 +33,5 @@
     <string name="delete">Delete</string>
     <string name="circle">circle</string>
     <string name="xOnDate">xOnDate</string>
+    <string name="due_25_aug">Due 25 Aug.</string>
 </resources>

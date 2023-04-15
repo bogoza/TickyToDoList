@@ -1,25 +1,24 @@
 package com.example.tickytodo.fragments
 
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
-import android.app.Dialog
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.DatePicker
-import androidx.fragment.app.DialogFragment
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.tickytodo.R
 import com.example.tickytodo.database.Task
 import com.example.tickytodo.database.TaskViewModel
 import com.example.tickytodo.databinding.FragmentUpdateTaskBinding
-import java.text.SimpleDateFormat
+import kotlinx.android.synthetic.main.fragment_add_task.*
 import java.util.*
 
-class UpdateTaskFragment(private val currentTask: Task) : Fragment() {
+class UpdateTaskFragment(private val currentTask: Task) : Fragment(),DatePickerDialog.OnDateSetListener {
 
     private var _binding: FragmentUpdateTaskBinding? = null
     private val binding get() = _binding!!
@@ -27,6 +26,15 @@ class UpdateTaskFragment(private val currentTask: Task) : Fragment() {
     private var selectedColorIndex = 0
 
 
+    private var day = 0
+    private var month = 0
+    private var year = 0
+
+    private var savedDay = 0
+    private var savedMonth = 0
+    private var savedYear = 0
+
+    private var dateForDb = currentTask.date
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -43,12 +51,13 @@ class UpdateTaskFragment(private val currentTask: Task) : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mTaskViewModel = ViewModelProvider(this)[TaskViewModel::class.java]
-//        binding.editTextTask.setText(currentData.description)
+
         showCurrentTask()
         listenerForCircles()
         currentCircleColor()
         clickListener()
-
+        hideCalendar()
+        pickDate()
 
 
     }
@@ -62,10 +71,11 @@ class UpdateTaskFragment(private val currentTask: Task) : Fragment() {
         binding.cancelContainer.setOnClickListener {
             goHome()
         }
-        binding.calendar.setOnClickListener {
-//            showDatePicker()
+        binding.xOnDate.setOnClickListener {
+            dateForDb = ""
+            binding.calendar.isVisible = true
+            binding.dateOn.isVisible = false
         }
-
 
     }
     private fun currentCircleColor() {
@@ -114,7 +124,7 @@ class UpdateTaskFragment(private val currentTask: Task) : Fragment() {
                 description = desc,
                 checkbox = currentTask.checkbox,
                 color = selectedColorIndex,
-                date = currentTask.date
+                date = dateForDb
             )
             mTaskViewModel.update(updateUser)
             goHome()
@@ -243,7 +253,62 @@ class UpdateTaskFragment(private val currentTask: Task) : Fragment() {
         }
     }
 
+    private fun getDateCalendar() {
+        val cal = Calendar.getInstance()
+        day = cal.get(Calendar.DAY_OF_MONTH)
+        month = cal.get(Calendar.MONTH)
+        year = cal.get(Calendar.YEAR)
+    }
+    private fun pickDate(){
+        binding.calendar.setOnClickListener {
+            getDateCalendar()
+            DatePickerDialog(requireContext(), this, year, month, day).show()
+        }
+        binding.updatedChooseDate.setOnClickListener {
+            getDateCalendar()
+            DatePickerDialog(requireContext(), this, year, month, day).show()
+        }
+    }
 
+private fun hideCalendar(){
+   if (currentTask.date != ""){
+       binding.calendar.isVisible = false
+       binding.dateOn.isVisible = true
+       binding.updatedChooseDate.text = currentTask.date
 
+   }else{
+       binding.dateOn.isVisible = false
+       binding.calendar.isVisible = true
+   }
+
+}
+
+    @SuppressLint("SetTextI18n")
+    override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
+        savedDay = dayOfMonth
+        savedMonth = month
+        savedYear = year
+
+        var yearInString = ""
+        when (savedMonth) {
+            0 -> yearInString = "Jan"
+            1 -> yearInString = "Feb"
+            2 -> yearInString = "Mar"
+            3 -> yearInString = "Apr"
+            4 -> yearInString = "May"
+            5 -> yearInString = "Jun"
+            6 -> yearInString = "Jul"
+            7 -> yearInString = "Aug"
+            8 -> yearInString = "Sep"
+            9 -> yearInString = "Oct"
+            10 -> yearInString = "Nov"
+            11 -> yearInString = "Dec"
+        }
+        getDateCalendar()
+        binding.updatedChooseDate.text = "Due $savedDay $yearInString."
+        dateForDb = "Due $savedDay $yearInString."
+        binding.calendar.isVisible = false
+        binding.dateOn.isVisible = true
+    }
 
 }

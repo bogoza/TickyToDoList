@@ -7,7 +7,4 @@ class DataModel:ViewModel() {
     val openEmptyFragment: MutableLiveData<Boolean> by lazy {
         MutableLiveData<Boolean>()
     }
-    val openAddTaskFragment: MutableLiveData<Boolean> by lazy {
-        MutableLiveData<Boolean>()
-    }
 }
