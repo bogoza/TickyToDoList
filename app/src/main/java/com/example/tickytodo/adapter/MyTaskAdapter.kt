@@ -62,17 +62,17 @@ class MyTaskAdapter :
             listener?.longClick(todo)
             true
         }
-        holder.checkboxSample.setOnCheckedChangeListener { _, b ->  }
+        holder.checkboxSample.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked){
+                listener?.checkBox(todo.id!!,true)
+            }
+        }
 
     }
 
     override fun getItemCount(): Int {
         val size = toDoList.size
-        if (size == 0) {
-            isRecyclerEmpty = true
-        } else {
-            isRecyclerEmpty = false
-        }
+        isRecyclerEmpty = size == 0
         listener?.isRecyclerEmpty(isRecyclerEmpty)
         return size
     }
@@ -90,6 +90,8 @@ class MyTaskAdapter :
         fun setDataToUpdateFragment(user: Task)
         fun longClick(user: Task)
         fun isRecyclerEmpty(isEmpty: Boolean)
+        fun checkBox(id: Int, checked: Boolean)
+
     }
 
     fun impInterface(myListener: ISetDataToUpdateFragment) {

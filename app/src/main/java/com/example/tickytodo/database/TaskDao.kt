@@ -24,4 +24,7 @@ interface TaskDao {
 
     @Delete(entity = Task::class)
     fun delete(task: Task)
+
+    @Query("UPDATE task_table SET checkbox = :checkboxValue WHERE id is :itemId")
+    suspend fun updateCheckboxForItem(itemId: Int, checkboxValue: Boolean)
 }

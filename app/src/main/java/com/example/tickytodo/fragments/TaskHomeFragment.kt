@@ -54,14 +54,16 @@ class TaskHomeFragment : Fragment(), MyTaskAdapter.ISetDataToUpdateFragment {
         mTaskViewModel = ViewModelProvider(this).get(TaskViewModel::class.java)
         init()
         setListeners()
-
-
-
     }
 
     override fun isRecyclerEmpty(isEmpty: Boolean) {
         mTaskViewModel.isHomeScreenEmpty.postValue(isEmpty)
     }
+
+    override fun checkBox(id: Int, checked: Boolean) {
+        mTaskViewModel.updateCheckboxForItem(id,checked)
+    }
+
 
     private fun init() {
         taskAdapter = MyTaskAdapter()

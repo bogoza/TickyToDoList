@@ -15,7 +15,6 @@ class CompletedTaskAdapter:
 
     private var completedList = emptyList<Task>()
 
-    private val isChecked = false
 
 
     inner class ViewHolder(

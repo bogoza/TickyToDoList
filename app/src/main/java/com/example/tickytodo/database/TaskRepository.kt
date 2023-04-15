@@ -15,4 +15,7 @@ class TaskRepository(private val taskDao: TaskDao) {
     fun delete(task:Task){
         taskDao.delete(task)
     }
+    suspend fun updateCheckboxForItem(itemId: Int, checkboxValue: Boolean) {
+        taskDao.updateCheckboxForItem(itemId, checkboxValue)
+    }
 }

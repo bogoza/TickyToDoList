@@ -43,4 +43,10 @@ class TaskViewModel (application: Application):AndroidViewModel(application) {
             repository.delete(user)
         }
     }
+    fun updateCheckboxForItem(itemId: Int, checkboxValue: Boolean) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.updateCheckboxForItem(itemId, checkboxValue)
+        }
+    }
+
 }
