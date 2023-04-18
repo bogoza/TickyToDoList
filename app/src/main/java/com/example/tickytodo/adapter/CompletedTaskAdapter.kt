@@ -1,7 +1,5 @@
 package com.example.tickytodo.adapter
 import android.annotation.SuppressLint
-import android.graphics.Paint
-import android.text.style.StrikethroughSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,6 +38,12 @@ class CompletedTaskAdapter:
         holder.textviewForCompleted.text = item.description
         holder.checkboxForCompleted.isChecked = item.checkbox
 
+        holder.checkboxForCompleted.setOnCheckedChangeListener { _, isChecked ->
+            if(!isChecked){
+                listener?.secondCheckBox(item.id!!,false)
+            }
+        }
+
     }
 
     override fun getItemCount(): Int {
@@ -50,6 +54,14 @@ class CompletedTaskAdapter:
     fun showInfo(taskList: List<Task>) {
         this.completedList = taskList
         notifyDataSetChanged()
+    }
+
+    private var listener:ISetDataForFirstRecycler? = null
+    interface ISetDataForFirstRecycler{
+        fun secondCheckBox(id: Int, checked: Boolean)
+    }
+    fun impInterface(myListener: ISetDataForFirstRecycler) {
+        this.listener = myListener
     }
 
 }

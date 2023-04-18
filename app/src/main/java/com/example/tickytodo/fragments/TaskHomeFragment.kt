@@ -23,7 +23,8 @@ import kotlinx.android.synthetic.main.fragment_task_home.*
 import java.nio.file.Files.delete
 
 
-class TaskHomeFragment : Fragment(), MyTaskAdapter.ISetDataToUpdateFragment {
+class TaskHomeFragment : Fragment(), MyTaskAdapter.ISetDataToUpdateFragment,
+    CompletedTaskAdapter.ISetDataForFirstRecycler {
 
     private var _binding: FragmentTaskHomeBinding? = null
     private val binding get() = _binding!!
@@ -63,6 +64,9 @@ class TaskHomeFragment : Fragment(), MyTaskAdapter.ISetDataToUpdateFragment {
     override fun checkBox(id: Int, checked: Boolean) {
         mTaskViewModel.updateCheckboxForItem(id,checked)
     }
+    override fun secondCheckBox(id: Int, checked: Boolean) {
+        mTaskViewModel.updateCheckboxForItem(id,checked)
+    }
 
 
     private fun init() {
@@ -73,9 +77,11 @@ class TaskHomeFragment : Fragment(), MyTaskAdapter.ISetDataToUpdateFragment {
         taskAdapter.impInterface(this)
 
         completedTaskAdapter = CompletedTaskAdapter()
+        completedTaskAdapter.impInterface(this)
         completedRecycler = binding.completedRecycler
         completedRecycler.layoutManager = LinearLayoutManager(requireContext())
         completedRecycler.adapter = completedTaskAdapter
+
 
 
         mTaskViewModel.readFalseData.observe(viewLifecycleOwner, Observer { Task ->
@@ -137,5 +143,7 @@ class TaskHomeFragment : Fragment(), MyTaskAdapter.ISetDataToUpdateFragment {
             delete_task.isVisible = false
         }
     }
+
+
 
 }
