@@ -121,9 +121,6 @@ class TaskHomeFragment : Fragment(), MyTaskAdapter.ISetDataToUpdateFragment,
     }
 
     override fun setDataToUpdateFragment(user: Task) {
-        Log.d("AAA", "Task: ${user.description}")
-        Log.d("AAA", "Task: ${user.color}")
-
         parentFragmentManager
             .beginTransaction()
             .replace(R.id.fragment_container_view, UpdateTaskFragment(user))
@@ -140,6 +137,10 @@ class TaskHomeFragment : Fragment(), MyTaskAdapter.ISetDataToUpdateFragment,
 
         delete_task_btn.setOnClickListener {
             mTaskViewModel.delete(user = user)
+            delete_task.isVisible = false
+        }
+        done_btn.setOnClickListener {
+            mTaskViewModel.updateCheckboxForItem(itemId = user.id!!,true)
             delete_task.isVisible = false
         }
     }
