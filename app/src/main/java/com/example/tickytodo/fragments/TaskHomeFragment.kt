@@ -38,6 +38,7 @@ class TaskHomeFragment : Fragment(), MyTaskAdapter.ISetDataToUpdateFragment,
 
 
 
+
 //    val updateTaskFragment = UpdateTaskFragment()
 
     override fun onCreateView(
@@ -63,9 +64,12 @@ class TaskHomeFragment : Fragment(), MyTaskAdapter.ISetDataToUpdateFragment,
 
     override fun checkBox(id: Int, checked: Boolean) {
         mTaskViewModel.updateCheckboxForItem(id,checked)
+        binding.deleteTask.isVisible = false
     }
     override fun secondCheckBox(id: Int, checked: Boolean) {
         mTaskViewModel.updateCheckboxForItem(id,checked)
+        taskAdapter.clearSelectedTasks()
+
     }
 
 
@@ -108,6 +112,7 @@ class TaskHomeFragment : Fragment(), MyTaskAdapter.ISetDataToUpdateFragment,
         }
         binding.circleForCancel.setOnClickListener {
             binding.deleteTask.isVisible = false
+            taskAdapter.clearSelectedTasks()
         }
 
     }
@@ -141,6 +146,7 @@ class TaskHomeFragment : Fragment(), MyTaskAdapter.ISetDataToUpdateFragment,
         }
         done_btn.setOnClickListener {
             mTaskViewModel.updateCheckboxForItem(itemId = user.id!!,true)
+            taskAdapter.clearSelectedTasks()
             delete_task.isVisible = false
         }
     }
