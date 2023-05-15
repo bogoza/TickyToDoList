@@ -1,7 +1,7 @@
-package com.example.tickytodo.SharedPreference
+package com.example.tickytodo.sharedPreference
 
 import android.content.Context
-import com.example.tickytodo.SharedPreference.SharedPreference.PrefConstants.PREF_NAME
+import com.example.tickytodo.sharedPreference.SharedPreference.PrefConstants.PREF_NAME
 
 
 class SharedPreference(context: Context) {

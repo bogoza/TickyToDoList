@@ -1,26 +1,28 @@
 package com.example.tickytodo
 import android.os.Bundle
-import android.util.Log
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import com.example.tickytodo.SharedPreference.SharedPreference
+import androidx.lifecycle.lifecycleScope
+import com.example.tickytodo.sharedPreference.SharedPreference
 import com.example.tickytodo.dataClasses.DataModel
-import com.example.tickytodo.database.TaskViewModel
+import com.example.tickytodo.dataStore.DataStore
+import com.example.tickytodo.viewmodel.TaskViewModel
 import com.example.tickytodo.databinding.ActivityMainBinding
 import com.example.tickytodo.fragments.NoTaskHomeFragment
 import com.example.tickytodo.fragments.OnboardFragment
 import com.example.tickytodo.fragments.TaskHomeFragment
-import org.w3c.dom.Text
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 
 class MainActivity : AppCompatActivity() {
 
     private val dataModel: DataModel by viewModels()
     private lateinit var sharedPref: SharedPreference
+    private lateinit var dataStore: DataStore
     private lateinit var binding: ActivityMainBinding
     private lateinit var mTaskViewModel: TaskViewModel
 
@@ -37,24 +39,24 @@ class MainActivity : AppCompatActivity() {
                 openFragment(TaskHomeFragment.newInstance(), R.id.fragment_container_view)
             }
         })
-
-        sharedPref = SharedPreference(this)
-        if (sharedPref.getValue()) {
-            openFragment(NoTaskHomeFragment.newInstance(), R.id.fragment_container_view)
-        } else {
-            sharedPref.saveValue(true)
-            openFragment(OnboardFragment.newInstance(), R.id.fragment_container_view)
+        dataStore = DataStore(this)
+        lifecycleScope.launch {
+            val value = dataStore.valueFlow.first()
+            if (value) {
+                openFragment(TaskHomeFragment.newInstance(), R.id.fragment_container_view)
+            } else {
+                dataStore.saveValue(true)
+                openFragment(OnboardFragment.newInstance(), R.id.fragment_container_view)
+            }
         }
 
         dataModel.openEmptyFragment.observe(this) {
-            sharedPref.saveValue(true)
-            openFragment(NoTaskHomeFragment.newInstance(), R.id.fragment_container_view)
+            lifecycleScope.launch {
+                dataStore.saveValue(true)
+                openFragment(NoTaskHomeFragment.newInstance(), R.id.fragment_container_view)
+            }
+
         }
-
-       val find = findViewById<TextView>(R.id.textViewForCompleted)
-
-
-
     }
 
 

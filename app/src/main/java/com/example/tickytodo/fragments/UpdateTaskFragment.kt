@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.tickytodo.R
 import com.example.tickytodo.database.Task
-import com.example.tickytodo.database.TaskViewModel
+import com.example.tickytodo.viewmodel.TaskViewModel
 import com.example.tickytodo.databinding.FragmentUpdateTaskBinding
 import kotlinx.android.synthetic.main.fragment_add_task.*
 import java.util.*

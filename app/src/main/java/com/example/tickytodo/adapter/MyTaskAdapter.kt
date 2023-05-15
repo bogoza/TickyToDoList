@@ -63,6 +63,7 @@ class MyTaskAdapter :
         }
         holder.itemView.itemLayout.setOnLongClickListener {
             listener?.longClick(todo)
+            listener?.longClick(todo)
             selectedTasks.add(todo)
             holder.selectedOverlay.setBackgroundColor(
                 if (selectedTasks.contains(todo)){

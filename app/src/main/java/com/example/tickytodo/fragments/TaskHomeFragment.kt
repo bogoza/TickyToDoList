@@ -2,7 +2,6 @@ package com.example.tickytodo.fragments
 
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,10 +16,9 @@ import com.example.tickytodo.adapter.CompletedTaskAdapter
 import com.example.tickytodo.adapter.MyTaskAdapter
 import com.example.tickytodo.dataClasses.HomeData
 import com.example.tickytodo.database.Task
-import com.example.tickytodo.database.TaskViewModel
+import com.example.tickytodo.viewmodel.TaskViewModel
 import com.example.tickytodo.databinding.FragmentTaskHomeBinding
 import kotlinx.android.synthetic.main.fragment_task_home.*
-import java.nio.file.Files.delete
 
 
 class TaskHomeFragment : Fragment(), MyTaskAdapter.ISetDataToUpdateFragment,

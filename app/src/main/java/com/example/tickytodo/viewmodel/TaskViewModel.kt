@@ -1,10 +1,13 @@
-package com.example.tickytodo.database
+package com.example.tickytodo.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.tickytodo.database.Task
+import com.example.tickytodo.database.TaskDatabase
+import com.example.tickytodo.database.TaskRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
