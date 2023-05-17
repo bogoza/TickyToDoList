@@ -44,7 +44,9 @@ class NoTaskHomeFragment : Fragment() {
     }
 
     companion object{
-        fun newInstance() = NoTaskHomeFragment()
+        fun newInstance() :NoTaskHomeFragment{
+            return NoTaskHomeFragment()
+        }
     }
 
 

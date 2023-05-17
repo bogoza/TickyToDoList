@@ -1,12 +1,10 @@
 package com.example.tickytodo
 import android.os.Bundle
-import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
-import com.example.tickytodo.sharedPreference.SharedPreference
 import com.example.tickytodo.dataClasses.DataModel
 import com.example.tickytodo.dataStore.DataStore
 import com.example.tickytodo.viewmodel.TaskViewModel
@@ -21,7 +19,6 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity() {
 
     private val dataModel: DataModel by viewModels()
-    private lateinit var sharedPref: SharedPreference
     private lateinit var dataStore: DataStore
     private lateinit var binding: ActivityMainBinding
     private lateinit var mTaskViewModel: TaskViewModel
@@ -32,30 +29,44 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         mTaskViewModel = TaskViewModel(application)
-        mTaskViewModel.isHomeScreenEmpty.observe(this, Observer {
-            if (it){
-                openFragment(NoTaskHomeFragment.newInstance(), R.id.fragment_container_view)
-            }else {
-                openFragment(TaskHomeFragment.newInstance(), R.id.fragment_container_view)
-            }
-        })
+//        mTaskViewModel.isHomeScreenEmpty.observe(this, Observer {
+//            if (it){
+//                openFragment(NoTaskHomeFragment.newInstance(), R.id.fragment_container_view)
+//            }else {
+//                openFragment(TaskHomeFragment.newInstance(), R.id.fragment_container_view)
+//            }
+//        })
+
+
+
+        dataStoreOnboard() //checking if launching app first time
+
+//        dataModel.openEmptyFragment.observe(this) {
+//            lifecycleScope.launch {
+//                dataStore.saveValue(true)
+//                openFragment(NoTaskHomeFragment.newInstance(), R.id.fragment_container_view)
+//            }
+//
+//        }
+    }
+
+    private fun dataStoreOnboard() {
         dataStore = DataStore(this)
         lifecycleScope.launch {
             val value = dataStore.valueFlow.first()
             if (value) {
-                openFragment(TaskHomeFragment.newInstance(), R.id.fragment_container_view)
+                mTaskViewModel.readAllData.observe(this@MainActivity,Observer{
+                       if(it.isEmpty()){
+                           openFragment(NoTaskHomeFragment.newInstance(), R.id.fragment_container_view)
+                        }
+                        else{
+                            openFragment(TaskHomeFragment.newInstance(),R.id.fragment_container_view)
+                        }
+                    })
             } else {
                 dataStore.saveValue(true)
                 openFragment(OnboardFragment.newInstance(), R.id.fragment_container_view)
             }
-        }
-
-        dataModel.openEmptyFragment.observe(this) {
-            lifecycleScope.launch {
-                dataStore.saveValue(true)
-                openFragment(NoTaskHomeFragment.newInstance(), R.id.fragment_container_view)
-            }
-
         }
     }
 
