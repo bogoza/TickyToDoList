@@ -29,39 +29,34 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         mTaskViewModel = TaskViewModel(application)
-//        mTaskViewModel.isHomeScreenEmpty.observe(this, Observer {
-//            if (it){
-//                openFragment(NoTaskHomeFragment.newInstance(), R.id.fragment_container_view)
-//            }else {
-//                openFragment(TaskHomeFragment.newInstance(), R.id.fragment_container_view)
-//            }
-//        })
-
-
 
         dataStoreOnboard() //checking if launching app first time
+        finishOnboard()//going to another fragment from onboard
 
-//        dataModel.openEmptyFragment.observe(this) {
-//            lifecycleScope.launch {
-//                dataStore.saveValue(true)
-//                openFragment(NoTaskHomeFragment.newInstance(), R.id.fragment_container_view)
-//            }
-//
-//        }
+    }
+
+    private fun finishOnboard() {
+        dataModel.openEmptyFragment.observe(this) {
+            lifecycleScope.launch {
+                dataStore.saveValue(true)
+                openFragment(NoTaskHomeFragment.newInstance(), R.id.fragment_container_view)
+            }
+
+        }
     }
 
     private fun dataStoreOnboard() {
         dataStore = DataStore(this)
         lifecycleScope.launch {
             val value = dataStore.valueFlow.first()
+            val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_view)
             if (value) {
                 mTaskViewModel.readAllData.observe(this@MainActivity,Observer{
-                       if(it.isEmpty()){
+                       if(it.isEmpty() && currentFragment !is NoTaskHomeFragment){
                            openFragment(NoTaskHomeFragment.newInstance(), R.id.fragment_container_view)
-                        }
-                        else{
-                            openFragment(TaskHomeFragment.newInstance(),R.id.fragment_container_view)
-                        }
+                        }else if(it.isNotEmpty() && currentFragment !is TaskHomeFragment){
+                           openFragment(TaskHomeFragment.newInstance(),R.id.fragment_container_view)
+                       }
                     })
             } else {
                 dataStore.saveValue(true)
@@ -69,6 +64,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+
 
 
     private fun openFragment(f: Fragment, idHolder: Int) {
